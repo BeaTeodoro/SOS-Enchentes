@@ -1,0 +1,62 @@
+# dependências
+node_modules/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# build
+build/
+dist/
+
+# ambiente
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# sistema
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# coverage (testes)
+coverage/
+
+# arquivos temporários
+*.tmp
+*.temp
+
+# react
+frontend/node_modules/
+frontend/build/
+
+# backend
+backend/node_modules/
+
+# banco local 
+*.sqlite
+*.db
+
+node_modules/
+build/
+dist/
+.env
+.env.*
+*.log
+coverage/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# subpastas
+backend/node_modules/
+frontend/node_modules/
+frontend/build/
