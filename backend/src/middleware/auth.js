@@ -1,17 +1,25 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET = "segredo";
-
 module.exports = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const authHeader = req.headers.authorization;
 
-  if (!token) return res.sendStatus(401);
+  if (!authHeader) {
+    return res.status(401).send("Token não enviado");
+  }
+
+  if (!authHeader.startsWith("Bearer ")) {
+    return res.status(401).send("Formato inválido");
+  }
+
+  const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     req.user = decoded;
     next();
-  } catch {
-    return res.sendStatus(403);
+  } catch (err) {
+    console.error("Erro no token:", err.message);
+    return res.status(403).send("Token inválido");
   }
 };

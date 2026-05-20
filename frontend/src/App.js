@@ -1,24 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import Abrigos from "./pages/Abrigos";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 
-function Home() {
-  return <h1>Home</h1>;
-}
-
-function Login() {
-  return <h1>Login</h1>;
-}
-
-function Abrigos() {
-  return <h1>Abrigos</h1>;
-}
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/abrigos" element={<Abrigos />} />
+        <Route path="/abrigos" element={<PrivateRoute><Abrigos /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

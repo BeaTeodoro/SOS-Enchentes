@@ -23,7 +23,8 @@ router.post("/register", async (req, res) => {
 
     return res.status(201).send("Usuário criado");
 
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err);
 
     if (err.code === "23505") {

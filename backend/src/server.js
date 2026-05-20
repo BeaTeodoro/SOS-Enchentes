@@ -16,6 +16,7 @@ app.use("/pessoas", require("./routes/pessoas"));
 app.use("/animais", require("./routes/animais"));
 app.use("/voluntarios", require("./routes/voluntarios"));
 app.use("/doacoes", require("./routes/doacoes"));
+app.use("/localizacoes", require("./routes/localizacoes"));
 
 app.get("/", (req, res) => {
   res.send("API SOS Enchentes rodando");

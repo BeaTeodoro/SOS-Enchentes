@@ -1,34 +1,66 @@
 import { useEffect, useState } from "react";
 import api from "../api/api";
-import AbrigoCard from "../components/AbrigoCard";
 
-export default function Abrigos() {
-  const [abrigos, setAbrigos] = useState([]);
+export default function AbrigoForm({ onCriado }) {
+  const [nome, setNome] = useState("");
+  const [localizacaoId, setLocalizacaoId] = useState("");
+  const [localizacoes, setLocalizacoes] = useState([]);
 
   useEffect(() => {
-    async function carregar() {
+    async function carregarLocalizacoes() {
       try {
-        const res = await api.get("/abrigos");
-        console.log(res.data);
-        setAbrigos(res.data);
+        const res = await api.get("/localizacoes");
+        setLocalizacoes(res.data);
       } catch (err) {
         console.error(err);
-        alert("Erro ao carregar abrigos");
       }
     }
 
-    carregar();
+    carregarLocalizacoes();
   }, []);
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      await api.post("/abrigos", {
+        nome,
+        localizacao_id: Number(localizacaoId),
+      });
+
+      setNome("");
+      setLocalizacaoId("");
+      onCriado();
+    } catch (err) {
+      console.error(err.response?.data || err);
+      alert("Erro ao criar abrigo");
+    }
+  }
+
   return (
-    <div>
-      <h1>Abrigos</h1>
+    <form onSubmit={handleSubmit}>
+      <h2>Novo Abrigo</h2>
 
-      {abrigos.length === 0 && <p>Nenhum abrigo encontrado</p>}
+      <input
+        placeholder="Nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
+      />
 
-      {abrigos.map((a) => (
-        <AbrigoCard key={a.id} abrigo={a} />
-      ))}
-    </div>
+      <select
+        value={localizacaoId}
+        onChange={(e) => setLocalizacaoId(e.target.value)}
+      >
+        <option value="">Selecione uma localização</option>
+
+        {localizacoes.map((loc) => (
+          <option key={loc.id} value={loc.id}>
+            {loc.cidade} - {loc.estado}
+          </option>
+        ))}
+      </select>
+
+      <button type="submit">Cadastrar</button>
+    </form>
   );
 }
